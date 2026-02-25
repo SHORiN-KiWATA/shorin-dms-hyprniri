@@ -9,7 +9,7 @@ yay -S xdg-desktop-portal-hyprland vulkan-headers hyprland-git quickshell-git dm
 - 终端
 
 ```
-yay -S jq imagemagick zoxia starship eza ttf-jetbrains-maple-mono-nf-xx-xx satty grim slurp
+yay -S fish jq imagemagick zoxia starship eza ttf-jetbrains-maple-mono-nf-xx-xx satty grim slurp
 ```
 
 - 文档管理器
