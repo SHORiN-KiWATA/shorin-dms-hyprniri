@@ -3,7 +3,7 @@
 - 核心
 
 ```
-yay -S hyprland-git quickshell-git dms-shell-bin matugen cava cups-pk-helper kimageformats kitty adw-gtk-theme breeze-cursors wl-clipboard cliphist
+yay -S xdg-desktop-portal-hyprland vulkan-headers hyprland-git quickshell-git dms-shell-bin matugen cava cups-pk-helper kimageformats kitty adw-gtk-theme breeze-cursors wl-clipboard cliphist
 ```
 
 - 终端
