@@ -1,4 +1,13 @@
 function f
+    # ==============================================================================
+    # 【脚本功能说明】
+    # 1. 结合 Fastfetch，在终端启动时展示随机二次元图片 (支持 SFW / NSFW 模式)。
+    # 2. 具备静默后台异步下载机制，库存不足时自动补货，绝不阻塞前台终端的启动。
+    # 3. 具备智能缓存管理机制，自动控制待展示区与已使用区 (used) 的图片数量上限。
+    # 4. 具备极致的网络环境容错处理，无网或弱网时自动降级 fallback，避免死等。
+    # 5. 具备自动清理 Fastfetch 内部生成的图片转换缓存功能，防止磁盘空间无感膨胀。
+    # ==============================================================================
+
     # ================= 配置区域 =================
     
     # [开关] 阅后即焚模式 (针对 Fastfetch 内部缓存)
@@ -57,9 +66,9 @@ function f
     
     # --- 2. 核心函数 ---
 
-    # [新增] 网络连通性检测，防止没网时阻塞终端或后台死等
+    # [修复] 抛弃脆弱的 1.1.1.1，使用苹果的全球探针节点，并使用 -I (HEAD请求) 极限提速
     function check_network
-        curl -s --connect-timeout 2 "https://1.1.1.1" >/dev/null 2>&1
+        curl -sI --connect-timeout 2 "http://captive.apple.com/hotspot-detect.html" >/dev/null 2>&1
         return $status
     end
     
@@ -81,7 +90,8 @@ function f
             # === SFW (正常) API ===
             switch $RAND
                 case 1
-                    curl -s $TIMEOUT "https://api.waifu.im/images?IncludedTags=waifu&IsNsfwfalse" | jq -r '.images[0].url'
+                    # [修复] IsNsfwfalse 修正为 IsNsfw=false
+                    curl -s $TIMEOUT "https://api.waifu.im/images?IncludedTags=waifu&IsNsfw=false" | jq -r '.images[0].url'
                 case 2
                     curl -s $TIMEOUT "https://nekos.best/api/v2/waifu" | jq -r '.results[0].url'
                 case 3
