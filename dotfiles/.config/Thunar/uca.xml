@@ -88,7 +88,7 @@ for line in sys.stdin:
 	<name>图片转png</name>
 	<submenu></submenu>
 	<unique-id>1769516013413116-2</unique-id>
-	<command>bash -c &apos;exec 1&gt;&gt;/tmp/img_err.log 2&gt;&amp;1; /usr/bin/notify-send &quot;图片转换&quot; &quot;正在后台处理 $# 张图片...&quot;; for f in &quot;$@&quot;; do /usr/bin/magick &quot;$f&quot; -delete 1--1 &quot;$(echo &quot;$f&quot; | sed &quot;s/\.[^.]*$//&quot;).png&quot;; done; /usr/bin/notify-send &quot;图片转换&quot; &quot;处理完成&quot;&apos; -- %F</command>
+	<command>bash -c &apos;exec 1&gt;&gt;/tmp/img_err.log 2&gt;&amp;1; /usr/bin/notify-send &quot;图片转换&quot; &quot;正在后台处理 $# 张图片...&quot;; for f in &quot;$@&quot;; do /usr/bin/magick -background none &quot;$f&quot; -delete 1--1 &quot;$(echo &quot;$f&quot; | sed &quot;s/\.[^.]*$//&quot;).png&quot;; done; /usr/bin/notify-send &quot;图片转换&quot; &quot;处理完成&quot;&apos; -- %F</command>
 	<description></description>
 	<range>*</range>
 	<patterns>*</patterns>
@@ -99,7 +99,7 @@ for line in sys.stdin:
 	<name>压缩视频大小</name>
 	<submenu></submenu>
 	<unique-id>1770021157399945-1</unique-id>
-	<command>kitty --class floating-term  bash -c &apos;f=&quot;$1&quot;; out=&quot;$(echo &quot;$f&quot; | sed &quot;s/\.[^.]*$//&quot;)_compressed.mp4&quot;; echo &quot;正在处理: $f&quot;; ffmpeg -i &quot;$f&quot; -c:v libx264 -crf 26 -preset slow -c:a aac -b:a 128k -pix_fmt yuv420p &quot;$out&quot;; echo -e &quot;\n✅ 压缩完成！文件已保存为: $out&quot;; read -n 1 -s -r -p &quot;按任意键退出...&quot;&apos; -- %f</command>
+	<command>kitty --class floating-term bash -c &apos;f=&quot;$1&quot;; out=&quot;$(echo &quot;$f&quot; | sed &quot;s/\.[^.]*$//&quot;)_compressed.mp4&quot;; echo &quot;正在处理: $f&quot;; if ffmpeg -i &quot;$f&quot; -vf &quot;scale=trunc(iw/2)*2:trunc(ih/2)*2&quot; -c:v libx264 -crf 26 -preset slow -c:a aac -b:a 128k -pix_fmt yuv420p &quot;$out&quot;; then echo -e &quot;\n✅ 压缩完成！文件已保存为: $out&quot;; else echo -e &quot;\n❌ 压缩失败，请查看上方报错信息。&quot;; fi; read -n 1 -s -r -p &quot;按任意键退出...&quot;&apos; -- %f</command>
 	<description></description>
 	<range>*</range>
 	<patterns>*</patterns>
